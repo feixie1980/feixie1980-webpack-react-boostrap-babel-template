@@ -7,9 +7,7 @@ const DIST = 'dist';
 
 var libConfig = {
   name: 'lib',
-  entry: {
-    main: './src/lib/index.js'
-  },
+  entry: ['@babel/polyfill', './src/lib/index.js'],
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, DIST)
@@ -32,9 +30,7 @@ var libConfig = {
 
 var appConfig = {
   name: 'app',
-  entry: {
-    main: './src/index.js',
-  },
+  entry: ['@babel/polyfill', './src/index.js'],
   resolve: {
     modules: [
       path.resolve(__dirname, 'src'),
@@ -42,7 +38,9 @@ var appConfig = {
     ]
   },
   devServer: {
-    contentBase: path.resolve(__dirname, DIST)
+    contentBase: path.resolve(__dirname, DIST),
+    port: 9000,
+    hot: true
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -75,7 +73,9 @@ var appConfig = {
                */
               plugins: [
                 // support async await
-                "@babel/plugin-transform-async-to-generator"
+                "@babel/plugin-transform-async-to-generator",
+                // support class properties
+                "@babel/plugin-proposal-class-properties"
               ]
             },
           }
